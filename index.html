@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>全国対応・変則ルートナビ・プランナー</title>
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -34,29 +34,52 @@
             overflow: hidden;
         }
 
+        /* コンパクト化・スリム化したヘッダー */
         header {
             background: #1e293b;
             color: #ffffff;
-            padding: 12px 20px;
+            padding: 8px 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             z-index: 1000;
+            flex-shrink: 0;
         }
 
         header h1 {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .header-sponsor-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .header-sponsor-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .main-container {
             display: flex;
             flex: 1;
-            height: calc(100vh - 53px);
+            height: calc(100vh - 41px);
             position: relative;
         }
 
@@ -72,7 +95,7 @@
         }
 
         .sidebar-content {
-            padding: 16px;
+            padding: 12px;
             overflow-y: auto;
             flex: 1;
         }
@@ -80,18 +103,18 @@
         /* Mode Option / Route Preference */
         .preference-panel {
             background: #f1f5f9;
-            padding: 12px;
+            padding: 10px;
             border-radius: 8px;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .preference-title {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 700;
             color: var(--secondary-color);
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .route-pref-selector {
@@ -106,8 +129,8 @@
         .route-pref-btn {
             border: none;
             background: transparent;
-            padding: 8px;
-            font-size: 0.8rem;
+            padding: 6px;
+            font-size: 0.75rem;
             font-weight: 600;
             border-radius: 4px;
             cursor: pointer;
@@ -126,8 +149,8 @@
             background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 12px;
+            padding: 10px;
+            margin-bottom: 10px;
             position: relative;
             transition: border-color 0.2s;
         }
@@ -140,7 +163,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .segment-number {
@@ -172,8 +195,8 @@
         .input-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-bottom: 10px;
+            gap: 6px;
+            margin-bottom: 8px;
         }
 
         .location-input-wrapper {
@@ -214,17 +237,16 @@
             border-color: var(--primary-color);
         }
 
-        /* Toggle Button Group for Highway / Local */
         .mode-toggle-group {
             display: flex;
             gap: 6px;
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         .toggle-btn {
             flex: 1;
-            padding: 6px 10px;
-            font-size: 0.8rem;
+            padding: 6px 8px;
+            font-size: 0.75rem;
             font-weight: 600;
             border: 1px solid var(--border-color);
             background: #f8fafc;
@@ -251,7 +273,7 @@
         }
 
         .toll-input-wrapper {
-            margin-top: 8px;
+            margin-top: 6px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -285,7 +307,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .add-segment-btn:hover {
@@ -294,30 +316,31 @@
             background: #f0f9ff;
         }
 
-        /* Summary Dashboard */
+        /* スマホ操作バー被り対策を施したSummary Dashboard */
         .summary-dashboard {
             background: #1e293b;
             color: #ffffff;
-            padding: 16px;
+            padding: 12px 16px 28px 16px; /* 下部に余白を追加してスマホで押しやすく */
             border-top: 1px solid var(--border-color);
+            flex-shrink: 0;
         }
 
         .summary-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            gap: 8px;
             text-align: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .summary-item .label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #94a3b8;
             margin-bottom: 2px;
         }
 
         .summary-item .value {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
         }
 
@@ -335,9 +358,9 @@
             background: var(--primary-color);
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: 600;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 700;
             font-size: 0.85rem;
             cursor: pointer;
             transition: background 0.2s;
@@ -352,9 +375,9 @@
             background: #334155;
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: 600;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 700;
             font-size: 0.85rem;
             cursor: pointer;
             transition: background 0.2s;
@@ -385,25 +408,207 @@
             color: #ef4444;
         }
 
+        /* ウェルカム＆スポンサー モーダル（ポップアップ）スタイル */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            backdrop-filter: blur(4px);
+            padding: 16px;
+        }
+
+        .modal-box {
+            background: white;
+            width: 100%;
+            max-width: 480px;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.25s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+
+        .modal-body {
+            font-size: 0.85rem;
+            color: #475569;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .modal-body ul {
+            margin: 8px 0 8px 18px;
+        }
+
+        .modal-body li {
+            margin-bottom: 4px;
+        }
+
+        /* モーダル内 寄付＆スポンサーボックス */
+        .support-box {
+            background: #fff1f2;
+            border: 1px dashed #f43f5e;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+            text-align: center;
+        }
+
+        .support-box-title {
+            font-weight: 700;
+            color: #e11d48;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+        }
+
+        .donate-btn-modal {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #f43f5e, #fb7185);
+            color: white;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-top: 6px;
+            box-shadow: 0 2px 4px rgba(244, 63, 94, 0.3);
+        }
+
+        .modal-close-btn {
+            width: 100%;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .modal-close-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* スポンサー一覧カード（モーダル用） */
+        .sponsor-list-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+        }
+
+        .sponsor-list-card a {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
         @media (max-width: 768px) {
             .main-container {
                 flex-direction: column-reverse;
             }
             .sidebar {
                 width: 100%;
-                height: 55%;
+                height: 60%;
             }
             #map {
-                height: 45%;
+                height: 40%;
             }
         }
     </style>
 </head>
 <body>
 
+    <!-- ウェルカムモーダル（初回ポップアップ ＆ 運営費・スポンサー募集） -->
+    <div class="modal-overlay" id="welcome-modal">
+        <div class="modal-box">
+            <div class="modal-title">🚗 変則ルートナビ・プランナー</div>
+            <div class="modal-body">
+                <p>一般的なナビでは対応できない、<strong>「途中で高速を降りて下道を走り、再度高速に乗る」</strong>といった変則ルートを自作・計画できるドライバー向けツールです。</p>
+                
+                <ul>
+                    <li>なるべく高速代や経費を抑えたい</li>
+                    <li>Googleマップの勝手な補正を防ぎたい</li>
+                    <li>運転中のナビ入れ直しによる危険を減らしたい</li>
+                </ul>
+
+                <!-- 運営費・維持費のご支援お願いエリア -->
+                <div class="support-box">
+                    <div class="support-box-title">☕ サーバー維持費・開発ご支援のお願い</div>
+                    <p style="font-size: 0.75rem; color: #881337;">当アプリは個人で開発・運用を行っております。ドライバーの皆様に無料で提供し続けるため、維持費・開発費の寄付（OFUSE）を募集しております。</p>
+                    <a href="https://ofuse.me/016sun" target="_blank" class="donate-btn-modal">
+                        ❤️ 開発者を応援する（OFUSEで寄付）
+                    </a>
+                </div>
+            </div>
+            <button class="modal-close-btn" onclick="closeModal('welcome-modal')">アプリを開始する</button>
+        </div>
+    </div>
+
+    <!-- スポンサー・アフィリエイト一覧モーダル（右上ボタンで開く） -->
+    <div class="modal-overlay" id="sponsor-modal" style="display: none;">
+        <div class="modal-box">
+            <div class="modal-title">🤝 スポンサー＆おすすめサービス</div>
+            <div class="modal-body">
+                <p style="margin-bottom: 10px;">当アプリの運営・ご支援をいただいている企業様およびドライバー向けおすすめサービスです。</p>
+
+                <div class="sponsor-list-card">
+                    <strong>📢 スポンサー企業様・タイアップ募集中</strong><br>
+                    <span style="font-size: 0.75rem; color: #64748b;">当アプリへのロゴ掲載や広告出稿についてはお気軽にご相談ください。</span><br>
+                    <a href="https://ofuse.me/016sun" target="_blank">お問い合わせ・詳細はこちら ➔</a>
+                </div>
+
+                <div class="sponsor-list-card">
+                    <strong>💳 ETCカード・高速割引情報</strong><br>
+                    <span style="font-size: 0.75rem; color: #64748b;">個人事業主・法人向けの高速料金還元カード</span>
+                </div>
+
+                <div class="sponsor-list-card">
+                    <strong>📹 ドライブレコーダー・カー用品</strong><br>
+                    <span style="font-size: 0.75rem; color: #64748b;">夜間撮影・前後カメラ搭載モデル特集</span>
+                </div>
+
+                <div class="support-box">
+                    <a href="https://ofuse.me/016sun" target="_blank" class="donate-btn-modal">
+                        ☕ 開発者へOFUSEで寄付する
+                    </a>
+                </div>
+            </div>
+            <button class="modal-close-btn" onclick="closeModal('sponsor-modal')">閉じる</button>
+        </div>
+    </div>
+
     <header>
-        <h1>🚗 全国対応・変則ルートナビ・プランナー</h1>
-        <span style="font-size: 0.75rem; background: #334155; padding: 4px 8px; border-radius: 4px; color: #cbd5e1;">試作品 Ver 2.0</span>
+        <h1>🚗 変則ルートナビ</h1>
+        <button class="header-sponsor-btn" onclick="openModal('sponsor-modal')">
+            🤝 応援・スポンサー
+        </button>
     </header>
 
     <div class="main-container">
@@ -428,9 +633,10 @@
                 <div id="segments-container"></div>
 
                 <button class="add-segment-btn" onclick="addSegment()">＋ 区間（経由地・IC）を追加する</button>
+
             </div>
 
-            <!-- 下部：合計金額・時間サマリー -->
+            <!-- 下部：合計金額・時間サマリー ＆ 操作ボタン（スマホで押しやすい高さに補正） -->
             <div class="summary-dashboard">
                 <div class="summary-grid">
                     <div class="summary-item">
@@ -465,9 +671,15 @@
     <script>
         let routePreference = 'wide';
 
-        // 日本全国の主要高速IC・拠点データベース（約400箇所）
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
         const nationalICDatabase = {
-            // 関東・首都圏
             "東京IC": [35.6267, 139.6300], "用賀IC": [35.6288, 139.6338], "高井戸IC": [35.6705, 139.6105],
             "八王子IC": [35.6766, 139.3400], "三郷IC": [35.8344, 139.8731], "川口JCT": [35.8378, 139.7397],
             "練馬IC": [35.7480, 139.5930], "大井JCT": [35.6033, 139.7547], "横浜町田IC": [35.5089, 139.4719],
@@ -476,7 +688,6 @@
             "宇都宮IC": [36.6342, 139.8450], "高崎IC": [36.3314, 139.0600], "前橋IC": [36.3867, 139.0200],
             "所沢IC": [35.8078, 139.5447], "川越IC": [35.8978, 139.4633], "つくばJCT": [36.0336, 140.1128],
             
-            // 中部・東海
             "名古屋城": [35.1848, 136.8997], "名古屋IC": [35.1764, 137.0143], "春日井IC": [35.2536, 136.9856],
             "小牧IC": [35.2936, 136.9064], "一宮IC": [35.2600, 136.8375], "豊田JCT": [35.0356, 137.1000],
             "岡崎IC": [34.9392, 137.1950], "豊橋可知IC": [34.7600, 137.3800], "浜松IC": [34.7511, 137.7889],
@@ -486,7 +697,6 @@
             "金沢東IC": [36.6025, 136.6586], "富山IC": [36.6492, 137.2106], "福井IC": [36.0506, 136.2622],
             "松本IC": [36.2269, 137.9350], "長野IC": [36.5750, 138.1636], "甲府昭和IC": [35.6425, 138.5369],
 
-            // 近畿
             "京都東IC": [34.9922, 135.8174], "京都南IC": [34.9546, 135.7538], "二条城": [35.0142, 135.7482],
             "竜王IC": [35.0869, 136.0886], "栗東IC": [35.0252, 135.9986], "彦根IC": [35.2678, 136.2731],
             "吹田JCT": [34.7836, 135.5308], "豊中IC": [34.7578, 135.4664], "梅田（大阪）": [34.7024, 135.4959],
@@ -494,21 +704,18 @@
             "神戸西IC": [34.7083, 135.0767], "西宮IC": [34.7267, 135.3528], "姫路東IC": [34.8089, 134.7431],
             "和歌山IC": [34.2325, 135.2150], "奈良IC": [34.6853, 135.8047], "天理IC": [34.6067, 135.8361],
 
-            // 中国・四国
             "岡山IC": [34.7178, 133.8969], "倉敷IC": [34.6186, 133.7719], "福山東IC": [34.5089, 133.4078],
             "広島IC": [34.4550, 132.4633], "岩国IC": [34.1867, 132.1706], "下関IC": [33.9786, 130.9575],
             "鳥取IC": [35.4856, 134.1950], "米子IC": [35.4225, 133.3850], "松江玉造IC": [35.4208, 133.0039],
             "高松中央IC": [34.3036, 134.0736], "坂出IC": [34.2983, 133.8589], "徳島IC": [34.0886, 134.5586],
             "松山IC": [33.7889, 132.7842], "高知IC": [33.5850, 133.5500],
 
-            // 九州・沖縄
             "門司IC": [33.8911, 130.9839], "小倉東IC": [33.8292, 130.9069], "福岡IC": [33.6339, 130.4853],
             "太宰府IC": [33.5133, 130.4839], "鳥栖JCT": [33.3769, 130.5281], "佐賀大和IC": [33.3150, 130.2783],
             "長崎IC": [32.7214, 129.8786], "熊本IC": [32.8469, 130.7850], "八代IC": [32.5117, 130.6386],
             "大分IC": [33.2208, 131.5742], "宮崎IC": [31.8756, 131.4286], "鹿児島IC": [31.5833, 130.5200],
             "那覇IC": [26.2200, 127.7217],
 
-            // 北海道・東北
             "札幌南IC": [43.0061, 141.4589], "新千歳空港IC": [42.7758, 141.6450], "旭川鷹栖IC": [43.8058, 142.3089],
             "函館IC": [41.8236, 140.7397], "青森IC": [40.7828, 140.6950], "盛岡南IC": [39.6586, 141.1444],
             "仙台宮城IC": [38.2678, 140.8142], "秋田南IC": [39.6592, 140.1658], "山形蔵王IC": [38.2433, 140.3708],
@@ -539,7 +746,6 @@
             calculateFullRoute();
         }
 
-        // 全国ICのdatalist（自動候補補完リスト）生成
         function buildDatalist() {
             const datalist = document.getElementById('japan-ic-list');
             datalist.innerHTML = '';
@@ -656,7 +862,6 @@
             calculateFullRoute();
         }
 
-        // Web APIジオコーディング（データベースにない任意の住所・ICを取得）
         async function getCoordinates(locationName) {
             if (nationalICDatabase[locationName]) {
                 return nationalICDatabase[locationName];
@@ -673,7 +878,7 @@
             } catch (e) {
                 console.warn('Geocoding fallback fail:', e);
             }
-            return [35.6812, 139.7671]; // デフォルト（東京駅）
+            return [35.6812, 139.7671];
         }
 
         async function calculateFullRoute() {
