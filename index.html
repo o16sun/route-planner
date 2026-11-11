@@ -1,9 +1,9 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>全国対応・変則ルートナビ・プランナー</title>
+    <title>全国対応・変則ルートナビ</title>
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
@@ -11,7 +11,6 @@
             --primary-color: #2563eb;
             --secondary-color: #475569;
             --accent-highway: #9333ea;
-            --accent-local: #2563eb;
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #0f172a;
@@ -34,7 +33,6 @@
             overflow: hidden;
         }
 
-        /* コンパクト化・スリム化したヘッダー */
         header {
             background: #1e293b;
             color: #ffffff;
@@ -53,7 +51,6 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            white-space: nowrap;
         }
 
         .header-sponsor-btn {
@@ -65,15 +62,6 @@
             font-size: 0.75rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .header-sponsor-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
         }
 
         .main-container {
@@ -83,7 +71,6 @@
             position: relative;
         }
 
-        /* Sidebar Control Panel */
         .sidebar {
             width: 420px;
             background: var(--card-bg);
@@ -91,7 +78,6 @@
             display: flex;
             flex-direction: column;
             z-index: 500;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
         }
 
         .sidebar-content {
@@ -100,7 +86,6 @@
             flex: 1;
         }
 
-        /* Mode Option / Route Preference */
         .preference-panel {
             background: #f1f5f9;
             padding: 10px;
@@ -112,8 +97,6 @@
             font-size: 0.75rem;
             font-weight: 700;
             color: var(--secondary-color);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
             margin-bottom: 6px;
         }
 
@@ -134,7 +117,6 @@
             font-weight: 600;
             border-radius: 4px;
             cursor: pointer;
-            transition: all 0.2s;
             color: #475569;
         }
 
@@ -144,19 +126,12 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
-        /* Route Segments List */
         .segment-card {
             background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 10px;
             margin-bottom: 10px;
-            position: relative;
-            transition: border-color 0.2s;
-        }
-
-        .segment-card:hover {
-            border-color: #cbd5e1;
         }
 
         .segment-header {
@@ -182,15 +157,8 @@
             font-weight: 600;
         }
 
-        .road-badge.wide {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .road-badge.normal {
-            background: #f1f5f9;
-            color: #475569;
-        }
+        .road-badge.wide { background: #dbeafe; color: #1e40af; }
+        .road-badge.normal { background: #f1f5f9; color: #475569; }
 
         .input-group {
             display: flex;
@@ -203,7 +171,6 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            position: relative;
         }
 
         .location-dot {
@@ -213,28 +180,28 @@
             background: var(--primary-color);
             flex-shrink: 0;
         }
+        .location-dot.ic { background: var(--accent-highway); }
+        .location-dot.end { background: #ef4444; }
 
-        .location-dot.end {
-            background: #ef4444;
-        }
-
-        .location-dot.ic {
-            background: var(--accent-highway);
-        }
-
-        input[type="text"], input[type="number"] {
+        .select-trigger-btn {
             width: 100%;
-            padding: 8px 10px;
+            padding: 10px;
             border: 1px solid var(--border-color);
             border-radius: 6px;
             font-size: 0.85rem;
-            outline: none;
             background-color: #ffffff;
-            transition: border-color 0.2s;
+            text-align: left;
+            cursor: pointer;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        input[type="text"]:focus, input[type="number"]:focus {
-            border-color: var(--primary-color);
+        .select-trigger-btn::after {
+            content: '▼';
+            font-size: 0.7rem;
+            color: #94a3b8;
         }
 
         .mode-toggle-group {
@@ -253,11 +220,6 @@
             color: var(--secondary-color);
             border-radius: 6px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            transition: all 0.2s;
         }
 
         .toggle-btn.active-local {
@@ -287,13 +249,15 @@
             font-size: 0.75rem;
             color: #6b21a8;
             font-weight: 600;
-            white-space: nowrap;
         }
 
         .toll-input-wrapper input {
             padding: 4px 8px;
             font-size: 0.8rem;
             text-align: right;
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
         }
 
         .add-segment-btn {
@@ -306,21 +270,13 @@
             font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
             margin-bottom: 12px;
         }
 
-        .add-segment-btn:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-            background: #f0f9ff;
-        }
-
-        /* スマホ操作バー被り対策を施したSummary Dashboard */
         .summary-dashboard {
             background: #1e293b;
             color: #ffffff;
-            padding: 12px 16px 28px 16px; /* 下部に余白を追加してスマホで押しやすく */
+            padding: 12px 16px 28px 16px;
             border-top: 1px solid var(--border-color);
             flex-shrink: 0;
         }
@@ -333,25 +289,11 @@
             margin-bottom: 10px;
         }
 
-        .summary-item .label {
-            font-size: 0.65rem;
-            color: #94a3b8;
-            margin-bottom: 2px;
-        }
+        .summary-item .label { font-size: 0.65rem; color: #94a3b8; }
+        .summary-item .value { font-size: 1rem; font-weight: 700; }
+        .summary-item .value.toll { color: #c084fc; }
 
-        .summary-item .value {
-            font-size: 1rem;
-            font-weight: 700;
-        }
-
-        .summary-item .value.toll {
-            color: #c084fc;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-        }
+        .action-buttons { display: flex; gap: 8px; }
 
         .btn-primary {
             flex: 2;
@@ -363,11 +305,6 @@
             font-weight: 700;
             font-size: 0.85rem;
             cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .btn-primary:hover {
-            background: #1d4ed8;
         }
 
         .btn-secondary {
@@ -380,19 +317,9 @@
             font-weight: 700;
             font-size: 0.85rem;
             cursor: pointer;
-            transition: background 0.2s;
         }
 
-        .btn-secondary:hover {
-            background: #475569;
-        }
-
-        /* Map Container */
-        #map {
-            flex: 1;
-            height: 100%;
-            z-index: 1;
-        }
+        #map { flex: 1; height: 100%; z-index: 1; }
 
         .remove-btn {
             background: transparent;
@@ -400,21 +327,12 @@
             color: #94a3b8;
             cursor: pointer;
             font-size: 1rem;
-            line-height: 1;
-            padding: 2px 6px;
         }
 
-        .remove-btn:hover {
-            color: #ef4444;
-        }
-
-        /* ウェルカム＆スポンサー モーダル（ポップアップ）スタイル */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             background: rgba(15, 23, 42, 0.75);
             display: flex;
             align-items: center;
@@ -433,67 +351,38 @@
             border-radius: 12px;
             padding: 20px;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
-            animation: modalFadeIn 0.25s ease-out;
-        }
-
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .modal-title {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: #1e293b;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
-        .modal-body {
+        .ic-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .ic-chip-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 10px;
+            border-radius: 6px;
             font-size: 0.85rem;
-            color: #475569;
-            line-height: 1.5;
-            margin-bottom: 16px;
-        }
-
-        .modal-body ul {
-            margin: 8px 0 8px 18px;
-        }
-
-        .modal-body li {
-            margin-bottom: 4px;
-        }
-
-        /* モーダル内 寄付＆スポンサーボックス */
-        .support-box {
-            background: #fff1f2;
-            border: 1px dashed #f43f5e;
-            border-radius: 8px;
-            padding: 12px;
-            margin: 12px 0;
+            font-weight: 600;
+            color: #1e293b;
+            cursor: pointer;
             text-align: center;
         }
 
-        .support-box-title {
-            font-weight: 700;
-            color: #e11d48;
-            font-size: 0.85rem;
-            margin-bottom: 6px;
-        }
-
-        .donate-btn-modal {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            background: linear-gradient(135deg, #f43f5e, #fb7185);
-            color: white;
-            text-decoration: none;
-            padding: 10px 16px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            margin-top: 6px;
-            box-shadow: 0 2px 4px rgba(244, 63, 94, 0.3);
+        .ic-chip-btn:hover {
+            background: #dbeafe;
+            border-color: #93c5fd;
+            color: #1e40af;
         }
 
         .modal-close-btn {
@@ -506,151 +395,61 @@
             font-weight: 700;
             font-size: 0.9rem;
             cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .modal-close-btn:hover {
-            background: #1d4ed8;
-        }
-
-        /* スポンサー一覧カード（モーダル用） */
-        .sponsor-list-card {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 8px;
-            font-size: 0.8rem;
-        }
-
-        .sponsor-list-card a {
-            color: var(--primary-color);
-            font-weight: 600;
-            text-decoration: none;
         }
 
         @media (max-width: 768px) {
-            .main-container {
-                flex-direction: column-reverse;
-            }
-            .sidebar {
-                width: 100%;
-                height: 60%;
-            }
-            #map {
-                height: 40%;
-            }
+            .main-container { flex-direction: column-reverse; }
+            .sidebar { width: 100%; height: 60%; }
+            #map { height: 40%; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ウェルカムモーダル（初回ポップアップ ＆ 運営費・スポンサー募集） -->
     <div class="modal-overlay" id="welcome-modal">
         <div class="modal-box">
             <div class="modal-title">🚗 変則ルートナビ・プランナー</div>
-            <div class="modal-body">
-                <p>一般的なナビでは対応できない、<strong>「途中で高速を降りて下道を走り、再度高速に乗る」</strong>といった変則ルートを自作・計画できるドライバー向けツールです。</p>
-                
-                <ul>
-                    <li>なるべく高速代や経費を抑えたい</li>
-                    <li>Googleマップの勝手な補正を防ぎたい</li>
-                    <li>運転中のナビ入れ直しによる危険を減らしたい</li>
-                </ul>
-
-                <!-- 運営費・維持費のご支援お願いエリア -->
-                <div class="support-box">
-                    <div class="support-box-title">☕ サーバー維持費・開発ご支援のお願い</div>
-                    <p style="font-size: 0.75rem; color: #881337;">当アプリは個人で開発・運用を行っております。ドライバーの皆様に無料で提供し続けるため、維持費・開発費の寄付（OFUSE）を募集しております。</p>
-                    <a href="https://ofuse.me/016sun" target="_blank" class="donate-btn-modal">
-                        ❤️ 開発者を応援する（OFUSEで寄付）
-                    </a>
-                </div>
-            </div>
+            <p style="font-size: 0.85rem; color: #475569; margin-bottom: 12px;">途中で高速を降りて下道を走り、再度高速に乗るルートを計画できるツールです。</p>
             <button class="modal-close-btn" onclick="closeModal('welcome-modal')">アプリを開始する</button>
         </div>
     </div>
 
-    <!-- スポンサー・アフィリエイト一覧モーダル（右上ボタンで開く） -->
-    <div class="modal-overlay" id="sponsor-modal" style="display: none;">
+    <div class="modal-overlay" id="ic-picker-modal" style="display: none;">
         <div class="modal-box">
-            <div class="modal-title">🤝 スポンサー＆おすすめサービス</div>
-            <div class="modal-body">
-                <p style="margin-bottom: 10px;">当アプリの運営・ご支援をいただいている企業様およびドライバー向けおすすめサービスです。</p>
+            <div class="modal-title">📍 全国のIC・地点を選択</div>
+            <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 10px;">目的のICまたは主要地点をタップしてください：</p>
+            
+            <div class="ic-picker-grid" id="ic-picker-list"></div>
 
-                <div class="sponsor-list-card">
-                    <strong>📢 スポンサー企業様・タイアップ募集中</strong><br>
-                    <span style="font-size: 0.75rem; color: #64748b;">当アプリへのロゴ掲載や広告出稿についてはお気軽にご相談ください。</span><br>
-                    <a href="https://ofuse.me/016sun" target="_blank">お問い合わせ・詳細はこちら ➔</a>
-                </div>
-
-                <div class="sponsor-list-card">
-                    <strong>💳 ETCカード・高速割引情報</strong><br>
-                    <span style="font-size: 0.75rem; color: #64748b;">個人事業主・法人向けの高速料金還元カード</span>
-                </div>
-
-                <div class="sponsor-list-card">
-                    <strong>📹 ドライブレコーダー・カー用品</strong><br>
-                    <span style="font-size: 0.75rem; color: #64748b;">夜間撮影・前後カメラ搭載モデル特集</span>
-                </div>
-
-                <div class="support-box">
-                    <a href="https://ofuse.me/016sun" target="_blank" class="donate-btn-modal">
-                        ☕ 開発者へOFUSEで寄付する
-                    </a>
-                </div>
-            </div>
-            <button class="modal-close-btn" onclick="closeModal('sponsor-modal')">閉じる</button>
+            <button class="modal-close-btn" style="background: #64748b;" onclick="closeModal('ic-picker-modal')">キャンセル</button>
         </div>
     </div>
 
     <header>
         <h1>🚗 変則ルートナビ</h1>
-        <button class="header-sponsor-btn" onclick="openModal('sponsor-modal')">
-            🤝 応援・スポンサー
-        </button>
+        <button class="header-sponsor-btn" onclick="location.href='https://ofuse.me/016sun'">🤝 応援・スポンサー</button>
     </header>
 
     <div class="main-container">
-        <!-- サイドバー：条件設定エリア -->
         <div class="sidebar">
             <div class="sidebar-content">
-                
-                <!-- 大通り優先／最短ルート設定 -->
                 <div class="preference-panel">
                     <div class="preference-title">下道ルートの優先設定</div>
                     <div class="route-pref-selector">
-                        <button class="route-pref-btn active" id="pref-wide" onclick="setRoutePreference('wide')">
-                            🛣️ 大通り・主要道
-                        </button>
-                        <button class="route-pref-btn" id="pref-shortest" onclick="setRoutePreference('shortest')">
-                            ⏱️ 最短・標準
-                        </button>
+                        <button class="route-pref-btn active" id="pref-wide" onclick="setRoutePreference('wide')">🛣️ 大通り・主要道</button>
+                        <button class="route-pref-btn" id="pref-shortest" onclick="setRoutePreference('shortest')">⏱️ 最短・標準</button>
                     </div>
                 </div>
 
-                <!-- 区間リスト -->
                 <div id="segments-container"></div>
-
                 <button class="add-segment-btn" onclick="addSegment()">＋ 区間（経由地・IC）を追加する</button>
-
             </div>
 
-            <!-- 下部：合計金額・時間サマリー ＆ 操作ボタン（スマホで押しやすい高さに補正） -->
             <div class="summary-dashboard">
                 <div class="summary-grid">
-                    <div class="summary-item">
-                        <div class="label">総所要時間</div>
-                        <div class="value" id="total-time">-- 分</div>
-                    </div>
-                    <div class="summary-item">
-                        <div class="label">総走行距離</div>
-                        <div class="value" id="total-distance">-- km</div>
-                    </div>
-                    <div class="summary-item">
-                        <div class="label">高速料金目安</div>
-                        <div class="value toll" id="total-toll">¥0</div>
-                    </div>
+                    <div class="summary-item"><div class="label">総所要時間</div><div class="value" id="total-time">-- 分</div></div>
+                    <div class="summary-item"><div class="label">総走行距離</div><div class="value" id="total-distance">-- km</div></div>
+                    <div class="summary-item"><div class="label">高速料金目安</div><div class="value toll" id="total-toll">¥0</div></div>
                 </div>
                 <div class="action-buttons">
                     <button class="btn-primary" onclick="calculateFullRoute()">ルートを一括計算</button>
@@ -659,67 +458,41 @@
             </div>
         </div>
 
-        <!-- 地図表示エリア -->
         <div id="map"></div>
     </div>
 
-    <!-- 全国主要ICデータリスト用のdatalist -->
-    <datalist id="japan-ic-list"></datalist>
-
-    <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         let routePreference = 'wide';
+        let currentSelectingTarget = null;
 
-        function openModal(id) {
-            document.getElementById(id).style.display = 'flex';
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-
+        // 【日本全国網羅版】主要IC・JCTデータベース
         const nationalICDatabase = {
-            "東京IC": [35.6267, 139.6300], "用賀IC": [35.6288, 139.6338], "高井戸IC": [35.6705, 139.6105],
-            "八王子IC": [35.6766, 139.3400], "三郷IC": [35.8344, 139.8731], "川口JCT": [35.8378, 139.7397],
-            "練馬IC": [35.7480, 139.5930], "大井JCT": [35.6033, 139.7547], "横浜町田IC": [35.5089, 139.4719],
-            "厚木IC": [35.4214, 139.3564], "海老名JCT": [35.4386, 139.3789], "成田IC": [35.7761, 140.3522],
-            "千葉北IC": [35.6694, 140.1194], "木更津金田IC": [35.4347, 139.9231], "水戸IC": [36.3769, 140.3800],
-            "宇都宮IC": [36.6342, 139.8450], "高崎IC": [36.3314, 139.0600], "前橋IC": [36.3867, 139.0200],
-            "所沢IC": [35.8078, 139.5447], "川越IC": [35.8978, 139.4633], "つくばJCT": [36.0336, 140.1128],
-            
-            "名古屋城": [35.1848, 136.8997], "名古屋IC": [35.1764, 137.0143], "春日井IC": [35.2536, 136.9856],
-            "小牧IC": [35.2936, 136.9064], "一宮IC": [35.2600, 136.8375], "豊田JCT": [35.0356, 137.1000],
-            "岡崎IC": [34.9392, 137.1950], "豊橋可知IC": [34.7600, 137.3800], "浜松IC": [34.7511, 137.7889],
-            "静岡IC": [34.9456, 138.3889], "沼津IC": [35.1636, 138.8614], "御殿場IC": [35.3114, 138.9489],
-            "岐阜羽島IC": [35.3136, 136.6989], "大垣IC": [35.3189, 136.6044], "四日市IC": [35.0118, 136.5417],
-            "桑名東IC": [35.0872, 136.6575], "亀山IC": [34.8465, 136.4382], "伊勢IC": [34.4756, 136.7264],
-            "金沢東IC": [36.6025, 136.6586], "富山IC": [36.6492, 137.2106], "福井IC": [36.0506, 136.2622],
-            "松本IC": [36.2269, 137.9350], "長野IC": [36.5750, 138.1636], "甲府昭和IC": [35.6425, 138.5369],
-
-            "京都東IC": [34.9922, 135.8174], "京都南IC": [34.9546, 135.7538], "二条城": [35.0142, 135.7482],
-            "竜王IC": [35.0869, 136.0886], "栗東IC": [35.0252, 135.9986], "彦根IC": [35.2678, 136.2731],
-            "吹田JCT": [34.7836, 135.5308], "豊中IC": [34.7578, 135.4664], "梅田（大阪）": [34.7024, 135.4959],
-            "門真IC": [34.7258, 135.6022], "松原JCT": [34.5828, 135.5564], "泉佐野IC": [34.4056, 135.3217],
-            "神戸西IC": [34.7083, 135.0767], "西宮IC": [34.7267, 135.3528], "姫路東IC": [34.8089, 134.7431],
-            "和歌山IC": [34.2325, 135.2150], "奈良IC": [34.6853, 135.8047], "天理IC": [34.6067, 135.8361],
-
-            "岡山IC": [34.7178, 133.8969], "倉敷IC": [34.6186, 133.7719], "福山東IC": [34.5089, 133.4078],
-            "広島IC": [34.4550, 132.4633], "岩国IC": [34.1867, 132.1706], "下関IC": [33.9786, 130.9575],
-            "鳥取IC": [35.4856, 134.1950], "米子IC": [35.4225, 133.3850], "松江玉造IC": [35.4208, 133.0039],
-            "高松中央IC": [34.3036, 134.0736], "坂出IC": [34.2983, 133.8589], "徳島IC": [34.0886, 134.5586],
-            "松山IC": [33.7889, 132.7842], "高知IC": [33.5850, 133.5500],
-
-            "門司IC": [33.8911, 130.9839], "小倉東IC": [33.8292, 130.9069], "福岡IC": [33.6339, 130.4853],
-            "太宰府IC": [33.5133, 130.4839], "鳥栖JCT": [33.3769, 130.5281], "佐賀大和IC": [33.3150, 130.2783],
-            "長崎IC": [32.7214, 129.8786], "熊本IC": [32.8469, 130.7850], "八代IC": [32.5117, 130.6386],
-            "大分IC": [33.2208, 131.5742], "宮崎IC": [31.8756, 131.4286], "鹿児島IC": [31.5833, 130.5200],
-            "那覇IC": [26.2200, 127.7217],
-
-            "札幌南IC": [43.0061, 141.4589], "新千歳空港IC": [42.7758, 141.6450], "旭川鷹栖IC": [43.8058, 142.3089],
-            "函館IC": [41.8236, 140.7397], "青森IC": [40.7828, 140.6950], "盛岡南IC": [39.6586, 141.1444],
-            "仙台宮城IC": [38.2678, 140.8142], "秋田南IC": [39.6592, 140.1658], "山形蔵王IC": [38.2433, 140.3708],
-            "福島飯坂IC": [37.8106, 140.4503], "郡山IC": [37.4206, 140.3150]
+            // 北海道
+            "札幌南IC": [43.0061, 141.4589], "新千歳空港IC": [42.7758, 141.6450], "函館IC": [41.8236, 140.7397], "旭川鷹栖IC": [43.8058, 142.3089],
+            // 東北
+            "青森IC": [40.7828, 140.6950], "盛岡南IC": [39.6586, 141.1444], "仙台宮城IC": [38.2678, 140.8142], "福島飯坂IC": [37.8106, 140.4503], "郡山IC": [37.4206, 140.3150],
+            // 関東・首都圏
+            "東京IC": [35.6267, 139.6300], "用賀IC": [35.6288, 139.6338], "高井戸IC": [35.6705, 139.6105], "八王子IC": [35.6766, 139.3400],
+            "三郷IC": [35.8344, 139.8731], "川口JCT": [35.8378, 139.7397], "練馬IC": [35.7480, 139.5930], "横浜町田IC": [35.5089, 139.4719],
+            "厚木IC": [35.4214, 139.3564], "海老名JCT": [35.4386, 139.3789], "成田IC": [35.7761, 140.3522], "水戸IC": [36.3769, 140.3800],
+            "宇都宮IC": [36.6342, 139.8450], "高崎IC": [36.3314, 139.0600], "水戸IC": [36.3769, 140.3800],
+            // 中部・東海・北陸
+            "名古屋城": [35.1848, 136.8997], "名古屋IC": [35.1764, 137.0143], "桑名東IC": [35.0872, 136.6575], "四日市IC": [35.0118, 136.5417],
+            "亀山IC": [34.8465, 136.4382], "甲賀土山IC": [34.9362, 136.2731], "竜王IC": [35.0869, 136.0886], "栗東IC": [35.0252, 135.9986],
+            "一宮IC": [35.2600, 136.8375], "小牧IC": [35.2936, 136.9064], "豊田JCT": [35.0356, 137.1000], "浜松IC": [34.7511, 137.7889],
+            "静岡IC": [34.9456, 138.3889], "沼津IC": [35.1636, 138.8614], "御殿場IC": [35.3114, 138.9489], "金沢東IC": [36.6025, 136.6586],
+            "富山IC": [36.6492, 137.2106], "長野IC": [36.5750, 138.1636], "新潟中央IC": [37.8731, 139.0650],
+            // 近畿
+            "京都東IC": [34.9922, 135.8174], "京都南IC": [34.9546, 135.7538], "二条城": [35.0142, 135.7482], "大阪・梅田": [34.7024, 135.4959],
+            "吹田JCT": [34.7836, 135.5308], "豊中IC": [34.7578, 135.4664], "門真IC": [34.7258, 135.6022], "松原JCT": [34.5828, 135.5564],
+            "神戸西IC": [34.7083, 135.0767], "西宮IC": [34.7267, 135.3528], "姫路東IC": [34.8089, 134.7431], "奈良IC": [34.6853, 135.8047], "和歌山IC": [34.2325, 135.2150],
+            // 中国・四国
+            "岡山IC": [34.7178, 133.8969], "倉敷IC": [34.6186, 133.7719], "広島IC": [34.4550, 132.4633], "下関IC": [33.9786, 130.9575],
+            "米子IC": [35.4225, 133.3850], "高松中央IC": [34.3036, 134.0736], "徳島IC": [34.0886, 134.5586], "松山IC": [33.7889, 132.7842], "高知IC": [33.5850, 133.5500],
+            // 九州・沖縄
+            "門司IC": [33.8911, 130.9839], "福岡IC": [33.6339, 130.4853], "太宰府IC": [33.5133, 130.4839], "鳥栖JCT": [33.3769, 130.5281],
+            "熊本IC": [32.8469, 130.7850], "長崎IC": [32.7214, 129.8786], "大分IC": [33.2208, 131.5742], "鹿児島IC": [31.5833, 130.5200], "那覇IC": [26.2200, 127.7217]
         };
 
         let segmentsData = [
@@ -730,37 +503,47 @@
             { id: 5, startName: '京都東IC', endName: '二条城', mode: 'local', toll: 0, distance: 0, time: 0 }
         ];
 
-        let map;
-        let routePolylines = [];
-        let routeMarkers = [];
+        let map, routePolylines = [], routeMarkers = [];
 
         function initMap() {
             map = L.map('map').setView([35.1000, 136.3000], 8);
-            
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(map);
 
-            buildDatalist();
             renderSegmentsUI();
             calculateFullRoute();
         }
 
-        function buildDatalist() {
-            const datalist = document.getElementById('japan-ic-list');
-            datalist.innerHTML = '';
-            Object.keys(nationalICDatabase).forEach(icName => {
-                const opt = document.createElement('option');
-                opt.value = icName;
-                datalist.appendChild(opt);
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        function openICPicker(id, key) {
+            currentSelectingTarget = { id, key };
+            const container = document.getElementById('ic-picker-list');
+            container.innerHTML = '';
+
+            Object.keys(nationalICDatabase).forEach(name => {
+                const btn = document.createElement('button');
+                btn.className = 'ic-chip-btn';
+                btn.innerText = name;
+                btn.onclick = () => selectIC(name);
+                container.appendChild(btn);
             });
+
+            document.getElementById('ic-picker-modal').style.display = 'flex';
+        }
+
+        function selectIC(name) {
+            if (currentSelectingTarget) {
+                updateSegmentData(currentSelectingTarget.id, currentSelectingTarget.key, name);
+                closeModal('ic-picker-modal');
+            }
         }
 
         function setRoutePreference(pref) {
             routePreference = pref;
             document.getElementById('pref-wide').classList.toggle('active', pref === 'wide');
             document.getElementById('pref-shortest').classList.toggle('active', pref === 'shortest');
-            
             renderSegmentsUI();
             calculateFullRoute();
         }
@@ -786,22 +569,18 @@
                     <div class="input-group">
                         <div class="location-input-wrapper">
                             <div class="location-dot ${index === 0 ? '' : 'ic'}"></div>
-                            <input type="text" list="japan-ic-list" value="${seg.startName}" placeholder="出発地 / 全国のIC・施設名" onchange="updateSegmentData(${seg.id}, 'startName', this.value)">
+                            <button class="select-trigger-btn" onclick="openICPicker(${seg.id}, 'startName')">${seg.startName}</button>
                         </div>
                         ${isLast ? `
                         <div class="location-input-wrapper">
                             <div class="location-dot end"></div>
-                            <input type="text" list="japan-ic-list" value="${seg.endName}" placeholder="到着地 / 全国のIC・施設名" onchange="updateSegmentData(${seg.id}, 'endName', this.value)">
+                            <button class="select-trigger-btn" onclick="openICPicker(${seg.id}, 'endName')">${seg.endName}</button>
                         </div>` : ''}
                     </div>
 
                     <div class="mode-toggle-group">
-                        <button class="toggle-btn ${seg.mode === 'local' ? 'active-local' : ''}" onclick="updateSegmentMode(${seg.id}, 'local')">
-                            🚙 下道 (一般道)
-                        </button>
-                        <button class="toggle-btn ${seg.mode === 'highway' ? 'active-highway' : ''}" onclick="updateSegmentMode(${seg.id}, 'highway')">
-                            高速優先
-                        </button>
+                        <button class="toggle-btn ${seg.mode === 'local' ? 'active-local' : ''}" onclick="updateSegmentMode(${seg.id}, 'local')">🚙 下道 (一般道)</button>
+                        <button class="toggle-btn ${seg.mode === 'highway' ? 'active-highway' : ''}" onclick="updateSegmentMode(${seg.id}, 'highway')">高速優先</button>
                     </div>
 
                     ${seg.mode === 'highway' ? `
@@ -843,12 +622,10 @@
             
             segmentsData.push({
                 id: newId,
-                startName: lastSeg ? lastSeg.endName : '東京IC',
-                endName: '横浜町田IC',
+                startName: lastSeg ? lastSeg.endName : '栗東IC',
+                endName: '京都南IC',
                 mode: 'local',
-                toll: 0,
-                distance: 0,
-                time: 0
+                toll: 0, distance: 0, time: 0
             });
 
             renderSegmentsUI();
@@ -862,47 +639,25 @@
             calculateFullRoute();
         }
 
-        async function getCoordinates(locationName) {
-            if (nationalICDatabase[locationName]) {
-                return nationalICDatabase[locationName];
-            }
-            try {
-                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationName)}`);
-                const data = await response.json();
-                if (data && data.length > 0) {
-                    const lat = parseFloat(data[0].lat);
-                    const lon = parseFloat(data[0].lon);
-                    nationalICDatabase[locationName] = [lat, lon];
-                    return [lat, lon];
-                }
-            } catch (e) {
-                console.warn('Geocoding fallback fail:', e);
-            }
-            return [35.6812, 139.7671];
+        function getCoordinates(name) {
+            return nationalICDatabase[name] || [35.1848, 136.8997];
         }
 
-        async function calculateFullRoute() {
+        function calculateFullRoute() {
             routePolylines.forEach(line => map.removeLayer(line));
             routeMarkers.forEach(marker => map.removeLayer(marker));
             routePolylines = [];
             routeMarkers = [];
 
-            let totalDist = 0;
-            let totalTimeMin = 0;
-            let totalToll = 0;
-
+            let totalDist = 0, totalTimeMin = 0, totalToll = 0;
             const allBounds = [];
 
             for (let i = 0; i < segmentsData.length; i++) {
                 const seg = segmentsData[i];
-                
-                if (i < segmentsData.length - 1) {
-                    seg.endName = segmentsData[i + 1].startName;
-                }
+                if (i < segmentsData.length - 1) seg.endName = segmentsData[i + 1].startName;
 
-                const startCoord = await getCoordinates(seg.startName);
-                const endCoord = await getCoordinates(seg.endName);
-
+                const startCoord = getCoordinates(seg.startName);
+                const endCoord = getCoordinates(seg.endName);
                 allBounds.push(startCoord, endCoord);
 
                 const isHighway = seg.mode === 'highway';
@@ -911,22 +666,14 @@
                 const weight = routePreference === 'wide' && !isHighway ? 7 : 5;
 
                 const polyline = L.polyline([startCoord, endCoord], {
-                    color: strokeColor,
-                    weight: weight,
-                    dashArray: dashArray,
-                    opacity: 0.8
+                    color: strokeColor, weight: weight, dashArray: dashArray, opacity: 0.8
                 }).addTo(map);
 
                 routePolylines.push(polyline);
-
-                const marker = L.marker(startCoord).addTo(map)
-                    .bindPopup(`<b>${seg.startName}</b><br>区間 ${i + 1} 開始`);
-                routeMarkers.push(marker);
+                routeMarkers.push(L.marker(startCoord).addTo(map).bindPopup(`<b>${seg.startName}</b>`));
 
                 if (i === segmentsData.length - 1) {
-                    const endMarker = L.marker(endCoord).addTo(map)
-                        .bindPopup(`<b>${seg.endName}</b><br>最終目的地`);
-                    routeMarkers.push(endMarker);
+                    routeMarkers.push(L.marker(endCoord).addTo(map).bindPopup(`<b>${seg.endName}</b>`));
                 }
 
                 const distKm = Math.round(Math.hypot(startCoord[0] - endCoord[0], startCoord[1] - endCoord[1]) * 111);
@@ -935,15 +682,12 @@
 
                 seg.distance = distKm;
                 seg.time = timeMin;
-
                 totalDist += distKm;
                 totalTimeMin += timeMin;
                 if (isHighway) totalToll += seg.toll;
             }
 
-            if (allBounds.length > 0) {
-                map.fitBounds(allBounds, { padding: [50, 50] });
-            }
+            if (allBounds.length > 0) map.fitBounds(allBounds, { padding: [40, 40] });
 
             document.getElementById('total-distance').innerText = `${totalDist} km`;
             const hours = Math.floor(totalTimeMin / 60);
@@ -954,17 +698,11 @@
 
         function exportToGoogleMaps() {
             if (segmentsData.length === 0) return;
-
             const origin = encodeURIComponent(segmentsData[0].startName);
             const destination = encodeURIComponent(segmentsData[segmentsData.length - 1].endName);
-            
             const waypoints = segmentsData.slice(0, -1).map(s => encodeURIComponent(s.endName)).join('|');
-
             let url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}`;
-            if (waypoints) {
-                url += `&waypoints=${waypoints}`;
-            }
-
+            if (waypoints) url += `&waypoints=${waypoints}`;
             window.open(url, '_blank');
         }
 
